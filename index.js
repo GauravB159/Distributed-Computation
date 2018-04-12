@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
     let start = parseInt(req.query.start);
     let end = parseInt(req.query.end);
     let divisible = false;
-    
+    console.log(`This workstation is working on the prime ${prime} and checking the range ${start}-${end}`);
     for(let i = start; i <= end;i++){     
            
         if(prime % i === 0){
@@ -24,7 +24,7 @@ let ngrokurl;
 (async ()=>{
     try{
         ngrokurl = await ngrok.connect(3000);
-        request.post({url:"http://localhost:8000/register", form: {addurl:ngrokurl}},(err,resp)=>{
+        request.post({url:`${serverURL}register`, form: {addurl:ngrokurl}},(err,resp)=>{
             if(err){
                 console.log(err);
             }
@@ -35,10 +35,10 @@ let ngrokurl;
     }
 })();
 
-process.stdin.resume();//so the program will not close instantly
+process.stdin.resume();
 
 function exitHandler(options, err) {
-    request.post({url:"http://localhost:8000/remove", form: {removeurl:ngrokurl}},(err,resp)=>{
+    request.post({url:`${serverURL}remove`, form: {removeurl:ngrokurl}},(err,resp)=>{
         if(err){
             console.log(err);
         }
