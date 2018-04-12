@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
     let start = parseInt(req.query.start);
     let end = parseInt(req.query.end);
     let divisible = false;
-    console.log(`This workstation is working on the prime ${prime} and checking the range ${start}-${end}`);
+    console.log(`This workstation is working on the number ${prime} and checking the range ${start}-${end}`);
     for(let i = start; i <= end;i++){     
            
         if(prime % i === 0){
@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
             break;
         }
     }    
+    if(divisible){
+        console.log(`The number ${prime} is divisible in the range ${start}-${end}`);
+    }else{
+        console.log(`The number ${prime} is not divisible in the range ${start}-${end}`);
+    }
     return res.send(divisible)
 })
 app.listen(3000, () => console.log('Workstation ready to work!'))
