@@ -3,18 +3,20 @@ var express = require("express");
 var app = express();
 var port = process.env.PORT || 8000;
 var morgan=require("morgan");
+var bodyParser = require('body-parser')
+
 app.use(morgan("dev"));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 var num;
 var func;
+var urls = [];
 
 
 app.get('/',function(req,res){
-	var urls = ["http://ff6afa28.ngrok.io","http://6d83603a.ngrok.io"];
 	num = req.query.num;
 	func = req.query.func;
-	let range = Math.ceil(Math.sqrt(num) / urls.length);
-	console.log(range);
-	
+	let range = Math.ceil(Math.sqrt(num) / urls.length);	
 	let prime = true;
 	let responses = 0;
 	urls.forEach((url,i)=>{
@@ -34,11 +36,7 @@ app.get('/',function(req,res){
 			if(resp.body === "true"){
 				prime = false;
 			}
-			console.log(resp.body, prime);
-
-			if(responses === urls.length){
-				console.log(responses,urls.length,prime);
-				
+			if(responses === urls.length){				
 				res.send(prime)
 			}
 		});
@@ -46,8 +44,19 @@ app.get('/',function(req,res){
 
 
 });
+app.post('/register',function(req,res){
+	urls.push(req.body.addurl);
+	console.log("A workstation has been added to the cluster")
 
-
+});
+app.post('/remove',function(req,res){
+	let index = urls.indexOf(req.body.removeurl);
+	if (index > -1) {
+		urls.splice(index, 1);
+		console.log("A workstation has been removed from the cluster")
+	}
+	res.send("OK")
+});
 
 app.listen(port,function(){
 	console.log("Listening on Port",port);
