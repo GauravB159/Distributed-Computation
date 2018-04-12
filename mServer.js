@@ -19,6 +19,9 @@ app.get('/',function(req,res){
 	let range = Math.ceil(Math.sqrt(num) / urls.length);	
 	let prime = true;
 	let responses = 0;
+	if(urls.length === 0){
+		res.send("No workstation is currently available, Sorry!")
+	}
 	urls.forEach((url,i)=>{
 		let start, end;
 		if(i === 0){
@@ -41,7 +44,7 @@ app.get('/',function(req,res){
 			}
 		});
 	});
-
+	
 
 });
 app.post('/register',function(req,res){
