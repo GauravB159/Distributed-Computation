@@ -4,7 +4,7 @@ var app = express();
 const readline = require('readline');
 var num;
 var func;
-var url = "http://83db25f2.ngrok.io"
+var url = "https://distprime.localtunnel.me/"
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -16,7 +16,6 @@ const rl = readline.createInterface({
 rl.question('Enter the number to check if it is prime: ', (number) => {
 	readline.clearLine()
     num = number;
-    func = functiom;
     // rl.write("this");
     url = url+"?num="+number;
     request(url,(err,resp)=>{
