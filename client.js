@@ -25,7 +25,11 @@ rl.question('Enter the number : ', (number) => {
             if(err){
                 console.log(err);
             }
-            console.log(resp.body);
+            if(resp.body === "false"){
+                console.log("The entered number is not prime.")
+            }else{
+                console.log("The entered number is prime.")
+            }
 		});
         rl.close();
     });

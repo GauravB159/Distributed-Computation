@@ -9,16 +9,20 @@ var func;
 
 
 app.get('/',function(req,res){
-	var urls = ["http://ff6afa28.ngrok.io"];
+	var urls = ["http://ff6afa28.ngrok.io","http://6d83603a.ngrok.io"];
 	num = req.query.num;
 	func = req.query.func;
-	let range = num / urls.length;
+	let range = Math.ceil(Math.sqrt(num) / urls.length);
+	console.log(range);
+	
+	let prime = true;
+	let responses = 0;
 	urls.forEach((url,i)=>{
 		let start, end;
 		if(i === 0){
 			start = 2;
 		}else{
-			start = i*range + 1
+			start = i*range;
 		}
 		end = (i+1)*range - 1;
 		url = url+`/?prime=${num}&start=${start}&end=${end}`;
@@ -26,9 +30,17 @@ app.get('/',function(req,res){
 			if(err){
 				console.log(err);
 			}
-			console.log(resp.body,i,start,end);
-			res.send(resp.body)
+			responses++;
+			if(resp.body === "true"){
+				prime = false;
+			}
+			console.log(resp.body, prime);
 
+			if(responses === urls.length){
+				console.log(responses,urls.length,prime);
+				
+				res.send(prime)
+			}
 		});
 	});
 

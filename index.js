@@ -7,17 +7,14 @@ app.get('/', (req, res) => {
     let start = req.query.start;
     let end = req.query.end;
     let divisible = false;
-    for(let i = start; i*i <= end;){
+    for(let i = start; i <= end;i++){        
         if(prime % i === 0){
             divisible = true;
             break;
         }
-        if(i === 2){
-            i++;
-        }else{
-            i+=2;
-        }
     }
+    console.log(divisible);
+    
     return res.send(divisible)
 })
 
