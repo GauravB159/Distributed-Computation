@@ -6,21 +6,30 @@ var morgan=require("morgan");
 app.use(morgan("dev"));
 var num;
 var func;
-var url = "http://dc56938f.ngrok.io/?prime=";
 
 
 app.get('/',function(req,res){
+	var urls = ["http://ff6afa28.ngrok.io"];
 	num = req.query.num;
 	func = req.query.func;
-	console.log(num);
-	console.log(func);
-	url = url+num+"&start=1&end=50";
-	request(url,(err,resp)=>{
-		if(err){
-			console.log(err);
+	let range = num / urls.length;
+	urls.forEach((url,i)=>{
+		let start, end;
+		if(i === 0){
+			start = 2;
+		}else{
+			start = i*range + 1
 		}
-		res.send(resp)
+		end = (i+1)*range - 1;
+		url = url+`/?prime=${num}&start=${start}&end=${end}`;
+		request(url,(err,resp)=>{
+			if(err){
+				console.log(err);
+			}
+			console.log(resp.body,i,start,end);
+			res.send(resp.body)
 
+		});
 	});
 
 
