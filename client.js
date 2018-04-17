@@ -18,6 +18,7 @@ rl.question('Enter the number to check if it is prime: ', (number) => {
     num = number;
     // rl.write("this");
     url = url+"?num="+number;
+    console.time("response_time");
     request(url,(err,resp)=>{
         if(err){
             console.log(err);
@@ -27,6 +28,7 @@ rl.question('Enter the number to check if it is prime: ', (number) => {
         }else{
             console.log("The entered number is prime.")
         }
+	console.timeEnd("response_time");
     });
     rl.close();
 });
